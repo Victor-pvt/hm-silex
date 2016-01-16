@@ -1,0 +1,35 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <h1>Запись отзыва</h1>
+    <br>
+    <form role="form" action="{{ path('create') }}" method="POST">
+
+        {{ form_widget(form._token) }}
+        {{ form_errors(form) }}
+
+
+        <div class="row form-group">
+            <label for="form_name">Автор сообщения</label>
+            {{ form_widget(form.authorName, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Enter name...',
+                } }) }}
+
+        </div>
+        <div class="row form-group">
+            <label for="form_message">Сообщение</label>
+            {{ form_widget(form.message, {
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Enter message...',
+                    'type': 'textarea'
+                } }) }}
+
+        </div>
+{#
+#}
+        <button type="submit" class="btn btn-ar btn-primary">BID</button>
+    </form>
+{% endblock body %}

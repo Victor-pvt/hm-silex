@@ -1,0 +1,42 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+    <h1>Upload creation</h1>
+
+    <div class="row form-group">
+        <label class="col-sm-2">Дата публикации
+        </label>
+        <div class="col-sm-5">
+            {{ book.publicationAt|date('Y-m-d H:i') }}
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-sm-2">Имя автора
+        </label>
+        <div class="col-sm-5">
+            {{ book.authorName }}
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-sm-2">IP адрес автора
+        </label>
+        <div class="col-sm-5">
+            {{ book.authorIp }}
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-sm-2">Текст отзыва
+        </label>
+        <div class="col-sm-5">
+            {{ book.message }}
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-sm-2">Кол-во лайков
+        </label>
+        <div class="col-sm-5">
+            {{ book.likesCount }}
+        </div>
+    </div>
+
+    {% endblock body %}

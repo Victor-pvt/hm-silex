@@ -1,0 +1,36 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+    <h1>Книга отзывов</h1>
+
+
+    <div class="container">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Дата публикации</th>
+                <th>Имя автора</th>
+                <th>IP адрес автора</th>
+                <th>Текст отзыва</th>
+                <th>Кол-во лайков</th>
+            </tr>
+            {% for key, book in books %}
+                <tr  data-id="#" class="folder-image">
+                    <td><a href="{{ path('show', { id: book.id }) }}">{{ book.id }}</a>
+                    </td>
+                    <td>{{ book.publicationAt|date('Y-m-d H:i') }}
+                    </td>
+                    <td>{{ book.authorName }}
+                    </td>
+                    <td>{{ book.authorIp }}
+                    </td>
+                    <td>{{ book.message }}
+                    </td>
+                    <td>{{ book.likesCount }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock body %}

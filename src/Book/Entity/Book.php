@@ -1,0 +1,161 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: victor
+ * Date: 16.01.16
+ * Time: 21:17
+ */
+
+namespace Entity;
+use Doctrine\ORM\Mapping as ORM;
+use Silex\Application;
+/**
+ * Book
+ *
+ * @ORM\Table(name="books")
+ * @ORM\Entity(repositoryClass="Entity\BookRepository")
+ */
+class Book {
+    private $app;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="publication_at", type="datetime",
+     * options={"comment" = "дата проведения экспорта данных"})
+     */
+    private $publicationAt;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="author_name", type="string", length=250, nullable=true)
+     */
+    private $authorName;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="author_ip", type="string", length=50, nullable=true)
+     */
+    private $authorIp;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="message", type="text", nullable=true)
+     */
+    private $message;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="likes_count", type="integer", length=10, nullable=true)
+     */
+    private $likesCount;
+
+    function __construct(Application $app)
+    {
+        $this->publicationAt = new \DateTime();
+        $this->app = $app;
+    }
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublicationAt()
+    {
+        return $this->publicationAt;
+    }
+
+    /**
+     * @param \DateTime $publicationAt
+     */
+    public function setPublicationAt($publicationAt)
+    {
+        $this->publicationAt = $publicationAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorName()
+    {
+        return $this->authorName;
+    }
+
+    /**
+     * @param string $authorName
+     */
+    public function setAuthorName($authorName)
+    {
+        $this->authorName = $authorName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorIp()
+    {
+        return $this->authorIp;
+    }
+
+    /**
+     * @param string $authorIp
+     */
+    public function setAuthorIp($authorIp)
+    {
+        $this->authorIp = $authorIp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLikesCount()
+    {
+        return $this->likesCount;
+    }
+
+    /**
+     * @param int $likesCount
+     */
+    public function setLikesCount($likesCount)
+    {
+        $this->likesCount = $likesCount;
+    }
+
+}
