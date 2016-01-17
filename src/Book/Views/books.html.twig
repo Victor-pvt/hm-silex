@@ -9,11 +9,20 @@
         <table class="table table-striped">
             <tr>
                 <th>#</th>
-                <th>Дата публикации</th>
+                <th class="order"
+                    data-order="publication_at"
+                    data-sort="ASC"
+                    data-action="{{ path('books') }}"
+                    style="cursor: pointer">Дата публикации</th>
                 <th>Имя автора</th>
                 <th>IP адрес автора</th>
                 <th>Текст отзыва</th>
-                <th>Кол-во лайков</th>
+                <th class="order"
+                    data-order="like_count"
+                    data-sort="ASC"
+                    data-action="{{ path('books') }}"
+                    style="cursor: pointer">Кол-во лайков</th>
+                <th>Лайкнуть</th>
             </tr>
             {% for key, book in books %}
                 <tr  data-id="#" class="folder-image">
@@ -27,10 +36,17 @@
                     </td>
                     <td>{{ book.message }}
                     </td>
-                    <td>{{ book.likesCount }}
+                    <td>{{ book.likeCount }}
+                    </td>
+                    <td><a href="{{ path('likeip', { id: book.id }) }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+
 {% endblock body %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="js/sort.js"></script>
+    {% endblock %}

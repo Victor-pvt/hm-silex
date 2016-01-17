@@ -24,8 +24,6 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale' => $app['locale'],
 )) ;
 
-
-
 // Template Engine Definition
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.options' => array(
@@ -37,7 +35,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 $app['bookService'] = function() use ($em, $app){
-    $bookService = new \Service\BookService($em, new \Entity\Book($app));
+    $bookService = new \Service\BookService($em, new \Entity\Book($app), $app);
 
     return $bookService;
 };

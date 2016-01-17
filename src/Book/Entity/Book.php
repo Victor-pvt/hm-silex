@@ -56,6 +56,16 @@ class Book {
      * @ORM\Column(name="likes_count", type="integer", length=10, nullable=true)
      */
     private $likesCount;
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="like_ip", type="array", nullable=true)
+     */
+    private $likeIp;
+    /**
+     * @var integer
+     */
+    private $likeCount;
 
     function __construct(Application $app)
     {
@@ -149,6 +159,13 @@ class Book {
     {
         return $this->likesCount;
     }
+    /**
+     * @return int
+     */
+    public function getLikeCount()
+    {
+        return count($this->likeIp);
+    }
 
     /**
      * @param int $likesCount
@@ -157,5 +174,49 @@ class Book {
     {
         $this->likesCount = $likesCount;
     }
+    /**
+     * Add likeIp
+     *
+     * @param string $data
+     *
+     * @return boolean
+     */
+    public function addLikeIp($data)
+    {
+        $output = false;
+        $t = $this->likeIp ? $this->likeIp : [];
+        if (!in_array($data, $t, true)) {
+            $this->likeIp[] = $data;
+            $output = true;
+        }
 
+        return $output;
+    }
+    /**
+     * Get likeIp
+     *
+     * @return array
+     */
+    public function getLikeIp()
+    {
+        return $this->likeIp;
+    }
+
+    /**
+     * Set likeIp
+     *
+     * @param array $likeIp
+     *
+     * @return Book
+     */
+    public function setLikeIp(array $likeIp)
+    {
+        $this->likeIp= array();
+
+        foreach ($likeIp as $data) {
+            $this->addLikeIp($data);
+        }
+
+        return $this;
+    }
 }

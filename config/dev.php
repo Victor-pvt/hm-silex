@@ -33,6 +33,8 @@ $app['http_cache.cache_dir'] = $app['cache.path'] . '/http'; // /var/www/html/te
 // Twig cache
 $app['twig.options.cache'] = $app['cache.path'] . '/twig'; // /var/www/html/test21/var/cache/twig
 
+// client
+$app['client_ip'] = Symfony\Component\HttpFoundation\Request::HEADER_CLIENT_IP;
 
 $app->register(new MonologServiceProvider(), [
     'monolog.logfile' => PATH_LOG . '/silex_dev.log',

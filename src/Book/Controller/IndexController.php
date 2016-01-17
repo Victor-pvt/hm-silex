@@ -39,54 +39,50 @@ class IndexController implements ControllerProviderInterface {
             return $app['twig']->render('index.html.twig');
         })->bind('home');
 
-        $indexController->get('/books', function() use ($app)
+        //Просмотр списка отзывов
+        $indexController->get('/books', function(Request $request) use ($app)
         {
-            $books = $app['bookService']->read();
+            $books = $app['bookService']->read($request);
             return $app['twig']->render('books.html.twig', [
                 'books' => $books
             ]);
         })->bind('books');
-        //Просмотр списка отзывов
 
+        //Просмотр отзыва
         $indexController->get('/book/{id}', function($id) use ($app)
         {
             $book = $app['bookService']->readOne($id);
+            $prev = $app['bookService']->readOnePrev($id);
+            $next = $app['bookService']->readOneNext($id);
             return $app['twig']->render('book.html.twig', [
-                'book' => $book
+                'book' => $book,
+                'prev' => $prev,
+                'next' => $next,
             ]);
 
         })->bind('show');
-//Просмотр отзыва
 
-//Создание нового отзыва
+        //Создание нового отзыва
         $app->match('/create', function (Request $request) use ($app) {
-            $book = [
-            'authorName' => $request->request->get('authorName', null),
-            'message' => $request->request->get('message', null),
-            ];
-
-            $form = $app['form.factory']->createBuilder('form', $book )
-                ->add('authorName')
-                ->add('message' , 'textarea', ['label' => 'Сообщение', 'required' => true])
-                ->getForm();
-
+            $form = $app['bookService']->createForm($request);
             $form->handleRequest($request);
-
             if ($form->isValid()) {
-                $book = new Book($app);
-                $data = $form->getData();
+                $data = array_merge($form->getData(),['authorIp' => $request->getClientIp()]);
                 $app['bookService']->save($data);
-
-                // redirect somewhere
-                return $app->redirect('/');
+                return $app->redirect('/books');
             }
-            //return $app->redirect('/hello');
-
             return $app['twig']->render('create.html.twig', [
-                'book' => $book,
                 'form' => $form->createView()
             ]);
         })->bind('create');
+
+        $indexController->get('/likeip/book/{id}', function(Request $request, $id) use ($app)
+        {
+            $data = ['likeIp' => $request->getClientIp()];
+            $app['bookService']->likeIpSave($id, $data);
+            return $app->redirect('/books');
+        })->bind('likeip');
+
         return $indexController;
     }
 }
