@@ -22,19 +22,19 @@ $annotationDriver = new Doctrine\ORM\Mapping\Driver\AnnotationDriver(
 );
 
 $driverChain = new Doctrine\ORM\Mapping\Driver\DriverChain();
-$driverChain->addDriver($annotationDriver,'Entity');
+$driverChain->addDriver($annotationDriver, 'Entity');
 
 $config = new Doctrine\ORM\Configuration;
 $config->setProxyDir('/tmp');
 $config->setProxyNamespace('Proxy');
-$config->setAutoGenerateProxyClasses(true); // this can be based on production config.
+$config->setAutoGenerateProxyClasses(TRUE); // this can be based on production config.
 // register metadata driver
 $config->setMetadataDriverImpl($driverChain);
 // use our allready initialized cache driver
 $config->setMetadataCacheImpl($cache);
 $config->setQueryCacheImpl($cache);
 
-AnnotationRegistry::registerFile(PATH_ROOT. DIRECTORY_SEPARATOR .
+AnnotationRegistry::registerFile(PATH_ROOT . DIRECTORY_SEPARATOR .
     'vendor' . DIRECTORY_SEPARATOR .
     'doctrine' . DIRECTORY_SEPARATOR .
     'orm' . DIRECTORY_SEPARATOR .
@@ -48,13 +48,13 @@ AnnotationRegistry::registerFile(PATH_ROOT. DIRECTORY_SEPARATOR .
 $evm = new Doctrine\Common\EventManager();
 $em = EntityManager::create(
     array(
-        'driver'  => $app['db.options']['driver'],
-        'host'    => $app['db.options']['host'],
-        'port'    => $app['db.options']['port'],
-        'user'    => $app['db.options']['user'],
-        'password'  => $app['db.options']['password'],
-        'dbname'  => $app['db.options']['dbname'],
-        'charset'  => $app['db.options']['charset'],
+        'driver' => $app['db.options']['driver'],
+        'host' => $app['db.options']['host'],
+        'port' => $app['db.options']['port'],
+        'user' => $app['db.options']['user'],
+        'password' => $app['db.options']['password'],
+        'dbname' => $app['db.options']['dbname'],
+        'charset' => $app['db.options']['charset'],
     ),
     $config,
     $evm

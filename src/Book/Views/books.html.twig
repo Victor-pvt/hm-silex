@@ -4,29 +4,31 @@
 
     <h1>Книга отзывов</h1>
 
-
-    <div class="container">
+    <div class="container book-table">
         <table class="table table-striped">
             <tr>
                 <th>#</th>
-                <th class="order"
+                <th class="order-date{% if book.publication_at %} {{ book.publication_at }}{% endif %}"
                     data-order="publication_at"
-                    data-sort="ASC"
+                    data-sort="{% if book.publication_at %}{{ book.publication_at }}{% endif %}"
                     data-action="{{ path('books') }}"
-                    style="cursor: pointer">Дата публикации</th>
+                    style="cursor: pointer">Дата публикации
+                </th>
                 <th>Имя автора</th>
                 <th>IP адрес автора</th>
                 <th>Текст отзыва</th>
-                <th class="order"
+                <th class="order-like{% if book.like_count %} {{ book.like_count }}{% endif %}"
                     data-order="like_count"
-                    data-sort="ASC"
+                    data-sort="{% if book.like_count %}{{ book.like_count }}{% endif %}"
                     data-action="{{ path('books') }}"
-                    style="cursor: pointer">Кол-во лайков</th>
+                    style="cursor: pointer">Кол-во лайков
+                </th>
                 <th>Лайкнуть</th>
             </tr>
             {% for key, book in books %}
-                <tr  data-id="#" class="folder-image">
-                    <td><a href="{{ path('show', { id: book.id }) }}">{{ book.id }}</a>
+                <tr>
+                    <td><a class="click-show" data-action="{{ path('show', { id: book.id }) }}"
+                           href="{{ path('show', { id: book.id }) }}">{{ book.id }}</a>
                     </td>
                     <td>{{ book.publicationAt|date('Y-m-d H:i') }}
                     </td>
@@ -36,9 +38,11 @@
                     </td>
                     <td>{{ book.message }}
                     </td>
-                    <td>{{ book.likeCount }}
+                    <td>{{ book.likesCount }}
                     </td>
-                    <td><a href="{{ path('likeip', { id: book.id }) }}"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
+                    <td><a class="click-like" data-action="{{ path('likeip', { id: book.id }) }}"
+                           href="{{ path('likeip', { id: book.id }) }}"><span class="glyphicon glyphicon-star"
+                                                                              aria-hidden="true"></span></a>
                     </td>
                 </tr>
             {% endfor %}
@@ -46,7 +50,3 @@
     </div>
 
 {% endblock body %}
-    {% block javascripts %}
-        {{ parent() }}
-        <script src="js/sort.js"></script>
-    {% endblock %}

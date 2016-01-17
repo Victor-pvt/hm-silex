@@ -6,7 +6,7 @@ use Silex\Application;
 require PATH_CONFIG . '/dev.php';
 require PATH_CONFIG . '/doctrine.php';
 
-if(DEBUG_MODE){
+if (DEBUG_MODE) {
     Debug::enable();
 }
 
@@ -22,31 +22,31 @@ $app->register(new Silex\Provider\TranslationServiceProvider());
 
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale' => $app['locale'],
-)) ;
+));
 
 // Template Engine Definition
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.options' => array(
-        'cache' => isset($app['twig.options.cache']) ? $app['twig.options.cache'] : false,
-        'strict_variables' => true,
+        'cache' => isset($app['twig.options.cache']) ? $app['twig.options.cache'] : FALSE,
+        'strict_variables' => TRUE,
         'debug' => $app['debug']
     ),
     'twig.path' => array(PATH_VIEWS),
 ));
 
-$app['bookService'] = function() use ($em, $app){
+$app['bookService'] = function () use ($em, $app) {
     $bookService = new \Service\BookService($em, new \Entity\Book($app), $app);
 
     return $bookService;
 };
 
 // Errors Exception
-$app->error(function(\Exception $e, $code) use($app) {
+$app->error(function (\Exception $e, $code) use ($app) {
 
     $file = pathinfo($e->getFile());
 
     return $app->json([
-        'success' => false,
+        'success' => FALSE,
         'message' => 'Error',
         'error' => $e->getMessage(),
         'serverror' => $code,

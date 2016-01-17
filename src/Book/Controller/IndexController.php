@@ -7,22 +7,17 @@
  */
 
 namespace Controller;
-use Entity\Book;
+
 use Silex\Application;
 use Silex\ControllerProviderInterface;
-
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * Index Controller Provider
  *
  */
-class IndexController implements ControllerProviderInterface {
+class IndexController implements ControllerProviderInterface
+{
 
     /**
      * Index Connect
@@ -34,30 +29,38 @@ class IndexController implements ControllerProviderInterface {
     {
         $indexController = $app['controllers_factory'];
 
-        $indexController->get('/', function() use ($app)
-        {
+        $indexController->get('/', function () use ($app) {
             return $app['twig']->render('index.html.twig');
         })->bind('home');
 
-        //Просмотр списка отзывов
-        $indexController->get('/books', function(Request $request) use ($app)
-        {
-            $books = $app['bookService']->read($request);
-            return $app['twig']->render('books.html.twig', [
-                'books' => $books
+        // Вызов сортированного списка
+        $indexController->get('/books', function (Request $request) use ($app) {
+            $book = [
+                'publication_at' => $request->query->get('publication_at', NULL),
+                'like_count' => $request->query->get('like_count', NULL),
+            ];
+            $books = $app['bookService']->readSort($book);
+            $output = $app['twig']->render('books.html.twig', [
+                'books' => $books,
+                'book' => $book
             ]);
+
+            return $output;
+
         })->bind('books');
 
         //Просмотр отзыва
-        $indexController->get('/book/{id}', function($id) use ($app)
-        {
+        $indexController->get('/book/{id}', function (Request $request, $id) use ($app) {
+            $getBook = [
+                'publication_at' => $request->query->get('publication_at', NULL),
+                'like_count' => $request->query->get('like_count', NULL),
+            ];
             $book = $app['bookService']->readOne($id);
-            $prev = $app['bookService']->readOnePrev($id);
-            $next = $app['bookService']->readOneNext($id);
+            $sortId = $app['bookService']->readSortId($id, $getBook);
             return $app['twig']->render('book.html.twig', [
                 'book' => $book,
-                'prev' => $prev,
-                'next' => $next,
+                'getBook' => $getBook,
+                'sortId' => $sortId
             ]);
 
         })->bind('show');
@@ -67,20 +70,30 @@ class IndexController implements ControllerProviderInterface {
             $form = $app['bookService']->createForm($request);
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $data = array_merge($form->getData(),['authorIp' => $request->getClientIp()]);
+                $data = array_merge($form->getData(), ['authorIp' => $request->getClientIp()]);
                 $app['bookService']->save($data);
+
                 return $app->redirect('/books');
             }
+
             return $app['twig']->render('create.html.twig', [
                 'form' => $form->createView()
             ]);
         })->bind('create');
 
-        $indexController->get('/likeip/book/{id}', function(Request $request, $id) use ($app)
-        {
+        // создание лайка
+        $indexController->get('/likeip/book/{id}', function (Request $request, $id) use ($app) {
+            $book = [
+                'publication_at' => $request->query->get('publication_at', NULL),
+                'like_count' => $request->query->get('like_count', NULL),
+            ];
+            $getString = '?publication_at=' . $book['publication_at'] .
+                '&like_count=' . $book['like_count'];
             $data = ['likeIp' => $request->getClientIp()];
             $app['bookService']->likeIpSave($id, $data);
-            return $app->redirect('/books');
+            $redirec = '/books' . $getString;
+
+            return $app->redirect($redirec);
         })->bind('likeip');
 
         return $indexController;

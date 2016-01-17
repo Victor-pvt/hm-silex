@@ -10,7 +10,7 @@ define('PATH_VENDOR', PATH_ROOT . '/vendor'); // /var/www/html/test21/vendor
 define('PATH_SRC', PATH_ROOT . '/src'); // /var/www/html/test21/src
 define('PATH_BOOK', PATH_SRC . '/Book'); // /var/www/html/test21/src/Book
 define('PATH_VIEWS', PATH_SRC . '/Book/Views'); // /var/www/html/test21/src/Book/Views
-define('DEBUG_MODE', true);
+define('DEBUG_MODE', TRUE);
 
 // Autoload
 require PATH_VENDOR . '/autoload.php';

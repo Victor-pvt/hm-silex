@@ -7,15 +7,18 @@
  */
 
 namespace Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Silex\Application;
+
 /**
  * Book
  *
  * @ORM\Table(name="books")
  * @ORM\Entity(repositoryClass="Entity\BookRepository")
  */
-class Book {
+class Book
+{
     private $app;
     /**
      * @var integer
@@ -72,6 +75,7 @@ class Book {
         $this->publicationAt = new \DateTime();
         $this->app = $app;
     }
+
     /**
      * @return int
      */
@@ -159,6 +163,7 @@ class Book {
     {
         return $this->likesCount;
     }
+
     /**
      * @return int
      */
@@ -174,6 +179,7 @@ class Book {
     {
         $this->likesCount = $likesCount;
     }
+
     /**
      * Add likeIp
      *
@@ -183,15 +189,16 @@ class Book {
      */
     public function addLikeIp($data)
     {
-        $output = false;
+        $output = FALSE;
         $t = $this->likeIp ? $this->likeIp : [];
-        if (!in_array($data, $t, true)) {
+        if (!in_array($data, $t, TRUE)) {
             $this->likeIp[] = $data;
-            $output = true;
+            $output = TRUE;
         }
 
         return $output;
     }
+
     /**
      * Get likeIp
      *
@@ -211,7 +218,7 @@ class Book {
      */
     public function setLikeIp(array $likeIp)
     {
-        $this->likeIp= array();
+        $this->likeIp = array();
 
         foreach ($likeIp as $data) {
             $this->addLikeIp($data);

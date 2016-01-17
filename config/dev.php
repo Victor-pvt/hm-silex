@@ -13,7 +13,8 @@ if ($app['debug']) {
     // Show errors
     ini_set('display_errors', 1);
     error_reporting(E_ALL & ~E_NOTICE);
-} else {
+}
+else {
     // Disable Show errors
     ini_set('display_errors', 0);
     error_reporting(0);
@@ -23,6 +24,8 @@ if ($app['debug']) {
 $app['locale'] = 'en';
 $app['session.default_locale'] = $app['locale'];
 date_default_timezone_set('Asia/Yekaterinburg');
+
+$app['asset_path'] = PATH_WEB;
 
 // Cache
 $app['cache.path'] = PATH_CACHE; // /var/www/html/test21/var/cache
@@ -38,5 +41,5 @@ $app['client_ip'] = Symfony\Component\HttpFoundation\Request::HEADER_CLIENT_IP;
 
 $app->register(new MonologServiceProvider(), [
     'monolog.logfile' => PATH_LOG . '/silex_dev.log',
-    'monolog.name'  => 'dev',
-    ]);
+    'monolog.name' => 'dev',
+]);

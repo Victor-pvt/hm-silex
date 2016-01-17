@@ -18,6 +18,7 @@
                   type="text/css"/>
             <!-- Bootstrap -->
             <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ app.request.basepath }}/css/style.css">
         {% endblock %}
     </head>
     <body>
@@ -42,17 +43,14 @@
                             <li><a href="{{ path('books') }}">
                                     <span class="glyphicon glyphicon-info-sign"></span>Просмотр списка отзывов</a></li>
                             <li class="divider"></li>
-                            {% set bookId = 0 %}
-                            <li><a href="{{ path('show', { id: bookId }) }}">
-                                    <span class="glyphicon glyphicon-export"></span>Просмотр отзыва</a></li>
-                            <li class="divider"></li>
                             <li><a href="{{ path('create') }}">
                                     <span class="glyphicon glyphicon-export"></span>Создание нового отзыва</a></li>
                             <li class="divider"></li>
                         </ul>
                     </li>
                 </ul>
-            </div><!--/.navbar-collapse -->
+            </div>
+            <!--/.navbar-collapse -->
         </div>
     </div>
 
@@ -65,17 +63,14 @@
         <div class="both"></div>
         <div class="push"></div>
     </div>
-
-
     {% block javascripts %}
         <!-- jQuery & jQuery UI -->
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript"
+                charset="utf-8"></script>
         <script src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://yastatic.net/jquery-ui/1.11.1/jquery-ui.min.js" type="text/javascript"
                 charset="utf-8"></script>
-
         <!-- Bootstrap -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -83,7 +78,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-
+        <script src="{{ app.request.basepath }}/js/sort.js"></script>
     {% endblock %}
     </body>
     </html>
